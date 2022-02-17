@@ -7,7 +7,7 @@
 
 Generate Jaxnet Vanity Address
 
-This is for of http://github.com/MarinX/btc-vanity
+This is fork of http://github.com/MarinX/btc-vanity project
 
 ## What is jaxnet vanity address?
 Vanity addresses are valid bitcoin addresses that contain human-readable messages. 
