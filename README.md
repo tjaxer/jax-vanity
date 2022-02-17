@@ -1,16 +1,18 @@
-# btc-vanity
+# jax-vanity
 
 [![Build Status](https://travis-ci.org/MarinX/btc-vanity.svg?branch=master)](https://travis-ci.org/MarinX/btc-vanity)
 [![Go Report Card](https://goreportcard.com/badge/github.com/MarinX/btc-vanity)](https://goreportcard.com/report/github.com/MarinX/btc-vanity)
 [![GoDoc](https://godoc.org/github.com/MarinX/btc-vanity?status.svg)](https://godoc.org/github.com/MarinX/btc-vanity)
 [![License MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
 
-Generate Bitcoin Vanity Address
+Generate Jaxnet Vanity Address
 
-## What is bitcoin vanity address?
+This is for of http://github.com/MarinX/btc-vanity
+
+## What is jaxnet vanity address?
 Vanity addresses are valid bitcoin addresses that contain human-readable messages. 
 
-For example, `1LoveBPzzD72PUXLzCkYAtGFYmK5vYNR33` is a valid address that contains the letters forming the word "Love" as the first four Base-58 letters. Vanity addresses require generating and testing billions of candidate private keys, until one derives a bitcoin address with the desired pattern...[reference](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch04.asciidoc)
+For example, `1JAXeBPzzD72PUXLzCkYAtGFYmK5vYNR33` is a valid address that contains the letters forming the word "JAX" as the first 3 Base-58 letters. Vanity addresses require generating and testing billions of candidate private keys, until one derives a jaxnet address with the desired pattern...[reference](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch04.asciidoc)
 
 
 ### Length of address
@@ -33,7 +35,7 @@ The frequency of a vanity pattern (1KidsCharity) and average time-to-find on a d
 ## Using library
 #### Install
 ```sh
-go get github.com/MarinX/btc-vanity
+go get github.com/tjaxer/jax-vanity
 ```
 
 #### Use it as library
@@ -44,23 +46,23 @@ package main
 import (
 	"fmt"
 
-	"github.com/MarinX/btc-vanity"
+	"github.com/tjaxer/jax-vanity"
 )
 
 func main() {
 
 	// create configuration
-	cfg := &btcvanity.Config{
+	cfg := &jaxvanity.Config{
 		// buffered channel, more buffer, faster to find matching pattern
 		Buffer: 5,
 		// if you want to use testnet, set true
 		TestNet: false,
 	}
 
-	btc := btcvanity.New(cfg)
+	btc := jaxvanity.New(cfg)
 
 	// find a patters eg adddress which starts with "ab"
-	address, err := btc.Find("ab")
+	address, err := btc.Find("ab", true)
 	if err != nil {
 		panic(err)
 	}
@@ -76,15 +78,20 @@ func main() {
 
 #### Use it as a CLI tool
 ```sh
-go get github.com/MarinX/btc-vanity/cmd/btcvanity
+go get github.com/tjaxer/jax-vanity/cmd/jaxvanity
 ```
 ```sh
-Usage: ./btcvanity [OPTIONS] pattern
-Example: ./btcvanity Kid
+Usage: ./jaxvanity [OPTIONS] pattern
+Example: ./jaxvanity
+
+  -help
+        Show usage message
   -testnet
         Use testnet
   -threads int
         How many threads you want to spawn (default 16)
+  -uncompressed
+        Use uncompressed public key 
 ```
 
 ## Tests
