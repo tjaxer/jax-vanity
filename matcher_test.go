@@ -1,4 +1,4 @@
-package btcvanity
+package jaxvanity
 
 import "testing"
 

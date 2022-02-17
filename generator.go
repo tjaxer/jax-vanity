@@ -1,4 +1,4 @@
-package btcvanity
+package jaxvanity
 
 import (
 	"github.com/btcsuite/btcd/btcec"
@@ -14,11 +14,11 @@ type Generator struct {
 
 // IGenerator is interface for generator
 type IGenerator interface {
-	Generate() (IWallet, error)
+	Generate(bool) (IWallet, error)
 }
 
 // Generate generates bitcoin wallet interface
-func (g *Generator) Generate() (IWallet, error) {
+func (g *Generator) Generate(compressed bool) (IWallet, error) {
 	wallet := &Wallet{}
 	var err error
 
@@ -32,8 +32,15 @@ func (g *Generator) Generate() (IWallet, error) {
 		return nil, err
 	}
 
-	wallet.pubKey, err = btcutil.NewAddressPubKey(
-		wallet.privKey.PrivKey.PubKey().SerializeUncompressed(), g.params)
+	if compressed {
+		wallet.pubKey, err = btcutil.NewAddressPubKey(
+			wallet.privKey.PrivKey.PubKey().SerializeCompressed(), g.params)
+
+	} else {
+		wallet.pubKey, err = btcutil.NewAddressPubKey(
+			wallet.privKey.PrivKey.PubKey().SerializeUncompressed(), g.params)
+
+	}
 	if err != nil {
 		return nil, err
 	}

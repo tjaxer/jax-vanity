@@ -1,4 +1,4 @@
-package btcvanity
+package jaxvanity
 
 import (
 	"sync"
@@ -21,7 +21,7 @@ func New(config *Config) *BTCVanity {
 }
 
 // Find runs a service to find matching pattern
-func (b *BTCVanity) Find(pattern string) (IWallet, error) {
+func (b *BTCVanity) Find(pattern string, compressed bool) (IWallet, error) {
 	var resWallet IWallet
 	var resError error
 
@@ -38,13 +38,13 @@ func (b *BTCVanity) Find(pattern string) (IWallet, error) {
 	for i := 0; i < b.config.Buffer; i++ {
 		go func() {
 			for {
-				wallet, err := btcWorker.Work()
+				wallet, err := btcWorker.Work(compressed)
 				if err != nil {
 					mutex.Lock()
 					resError = err
 					break
 				}
-				if isMatch(pattern, wallet.PublicKey()) {
+				if isMatch(pattern, wallet.Address()) {
 					mutex.Lock()
 					if resWallet != nil {
 						break

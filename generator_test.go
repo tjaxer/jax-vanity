@@ -1,4 +1,4 @@
-package btcvanity
+package jaxvanity
 
 import (
 	"regexp"
@@ -12,7 +12,7 @@ func TestGenerator(t *testing.T) {
 		params: &chaincfg.MainNetParams,
 	}
 
-	w, err := g.Generate()
+	w, err := g.Generate(true)
 	if err != nil {
 		t.Error(err)
 		return
@@ -23,9 +23,9 @@ func TestGenerator(t *testing.T) {
 		return
 	}
 
-	pubKye := w.PublicKey()
+	address := w.Address()
 	privKey := w.PrivateKey()
-	t.Logf("%v\n", pubKye)
+	t.Logf("%v\n", address)
 	t.Logf("%v\n", privKey)
 
 	if len(privKey) != 51 {
@@ -34,13 +34,13 @@ func TestGenerator(t *testing.T) {
 	}
 
 	// regex to see if this is bitcoin adddress
-	matched, err := regexp.MatchString("^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$", pubKye)
+	matched, err := regexp.MatchString("^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$", address)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	if !matched {
-		t.Errorf("This is not generated bitcoin address %v\n", pubKye)
+		t.Errorf("This is not generated bitcoin address %v\n", address)
 		return
 	}
 

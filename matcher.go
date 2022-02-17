@@ -1,6 +1,8 @@
-package btcvanity
+package jaxvanity
 
-import "strings"
+import (
+	"strings"
+)
 
 // isMatch checks if the btc wallet matches the prefix of pattern
 func isMatch(pattern string, addr string) bool {

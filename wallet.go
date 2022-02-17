@@ -1,4 +1,4 @@
-package btcvanity
+package jaxvanity
 
 import (
 	"github.com/btcsuite/btcutil"
@@ -14,6 +14,7 @@ type Wallet struct {
 type IWallet interface {
 	PublicKey() string
 	PrivateKey() string
+	Address() string
 }
 
 

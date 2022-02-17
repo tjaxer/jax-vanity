@@ -1,4 +1,4 @@
-package btcvanity
+package jaxvanity
 
 import (
 	"strings"
@@ -12,13 +12,13 @@ func TestBTCVanity(t *testing.T) {
 		Buffer: 5,
 	})
 
-	wallet, err := b.Find("ab")
+	wallet, err := b.Find("ab", true)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	pubKey := strings.ToLower(wallet.PublicKey())
+	pubKey := strings.ToLower(wallet.Address())
 	expected := "1ab"
 
 	hasPrefix := strings.HasPrefix(pubKey, expected)
@@ -31,7 +31,7 @@ func TestBTCVanity(t *testing.T) {
 	done := make(chan bool)
 	// this is going to take billion of years
 	go func() {
-		wallet, err = b.Find("helloworld")
+		wallet, err = b.Find("helloworld", true)
 		if err != nil {
 			t.Error(err)
 			t.Fail()
