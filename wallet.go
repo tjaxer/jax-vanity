@@ -16,9 +16,15 @@ type IWallet interface {
 	PrivateKey() string
 }
 
-// PublicKey returns encoded address
-func (w Wallet) PublicKey() string {
+
+// Address returns encoded address
+func (w Wallet) Address() string {
 	return w.pubKey.AddressPubKeyHash().EncodeAddress()
+}
+
+// PublicKey returns encoded public key
+func (w Wallet) PublicKey() string {
+	return w.pubKey.String()
 }
 
 // PrivateKey returns private key, ready for import in most bitcoin wallets

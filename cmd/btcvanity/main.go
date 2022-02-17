@@ -10,6 +10,8 @@ import (
 
 var buffer = flag.Int("threads", 16, "How many threads you want to spawn")
 var testnet = flag.Bool("testnet", false, "Use testnet")
+var help = flag.Bool("help", false, "Show usage message")
+
 var usage = func() {
 	fmt.Fprintf(os.Stderr, "Usage: %s [OPTIONS] pattern\n", os.Args[0])
 	fmt.Fprintf(os.Stderr, "Example: %s Kid\n", os.Args[0])
@@ -20,10 +22,16 @@ var usage = func() {
 func main() {
 	flag.Usage = usage
 	flag.Parse()
+	var prefix string = "JAX"
 
-	if flag.NArg() == 0 {
-		flag.Usage()
+	if *help {
+		usage()
 	}
+
+	if flag.NArg() != 0 {
+		prefix = flag.Arg(0)
+	}
+
 
 	cfg := &btcvanity.Config{
 		Buffer:  *buffer,
@@ -34,16 +42,21 @@ func main() {
 
 	fmt.Fprintf(os.Stdout,
 		"Testnet: %t\nThreads: %d\nPattern: %s\nWorking...please wait\n",
-		*testnet, *buffer, flag.Arg(0),
+		*testnet, *buffer, prefix,
 	)
 
-	address, err := btc.Find(flag.Arg(0))
+	address, err := btc.Find(prefix)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return
 	}
 
-	fmt.Fprintf(os.Stdout, "Public key\n%s\n", address.PublicKey())
-	fmt.Fprintf(os.Stdout, "Private key\n%s\n", address.PrivateKey())
+	fmt.Fprintf(os.Stdout, "Address: %s\n", address.PublicKey())
+	fmt.Fprintf(os.Stdout, "Public key: %s\n", address.PrivateKey())
+	fmt.Fprintf(os.Stdout, "Private key: %s\n", address.PrivateKey())
+	fmt.Fprintf(os.Stdout, "Wif key: %s\n", address.PrivateKey())
+
+
+
 
 }
