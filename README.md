@@ -62,16 +62,14 @@ func main() {
 	btc := jaxvanity.New(cfg)
 
 	// find a patters eg adddress which starts with "ab"
-	address, err := btc.Find("ab", true)
+	address, err := btc.Find("JAX", true)
 	if err != nil {
 		panic(err)
 	}
-
-	// print our custom public key
+	
+	fmt.Println("ADDRESS\n%s\n", address.Address())
 	fmt.Printf("PUBLIC KEY\n%s\n", address.PublicKey())
-
-	// print our private key so it can be imported in most btc wallets
-	fmt.Printf("PRIVATE KEY\n%s\n", address.PrivateKey())
+	fmt.Printf("PRIVATE KEY\n%s\n", address.PrivateKey()) // RAW Hex format
 }
 
 ```
